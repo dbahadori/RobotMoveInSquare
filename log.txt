@@ -1,0 +1,6 @@
+2022-06-29 18:08:21.331  INFO 14559 --- [main] a.e.agentworld.AgentWorldApplication     : Starting AgentWorldApplication using Java 17.0.2 on david-Inspiron-1564 with PID 14559 (/home/david/Spring/robot-world/target/classes started by david in /home/david/Spring/robot-world)
+2022-06-29 18:08:21.336 DEBUG 14559 --- [main] a.e.agentworld.AgentWorldApplication     : Running with Spring Boot v2.7.1, Spring v5.3.21
+2022-06-29 18:08:21.337  INFO 14559 --- [main] a.e.agentworld.AgentWorldApplication     : No active profile set, falling back to 1 default profile: "default"
+2022-06-29 18:08:24.944  INFO 14559 --- [main] a.e.agentworld.AgentWorldApplication     : Started AgentWorldApplication in 4.284 seconds (JVM running for 5.531)
+2022-06-29 18:08:36.345 ERROR 14559 --- [http-nio-8102-exec-1] a.e.agentworld.aspect.LoggingAspect      : Exception in agent.example.agentworld.service.AgentService.getAgentLocation() with cause = There is no agent with this name:agent5
+2022-06-29 18:08:36.348 ERROR 14559 --- [http-nio-8102-exec-1] a.e.agentworld.aspect.LoggingAspect      : Exception in agent.example.agentworld.controller.agentWorldController.actorLocation() with cause = There is no agent with this name:agent5
