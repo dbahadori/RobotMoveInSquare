@@ -18,6 +18,9 @@ import agent.example.agentworld.models.Agent;
 import agent.example.agentworld.models.Location;
 import agent.example.agentworld.repository.AgentRepository;
 
+import java.util.function.BiFunction;
+import java.util.function.Predicate;  
+
 @Component
 public class AgentLogic {
 
@@ -32,7 +35,7 @@ public class AgentLogic {
 	
 	public Agent Move( String agentName, Action action) {
 		
-		
+			
 		// getting actors positions at business logic side as the first method for showing java 8
 		
 		/*
@@ -57,7 +60,13 @@ public class AgentLogic {
 		 */
 
 		
-		// getting actors positions at repository side as the second method		  
+		// getting actors positions at repository side as the second method	
+		BiFunction<String, Action, Agent> al= (an, ac)->{return doAction(an, ac);};
+		return al.apply(agentName, action);
+		
+	}
+	
+	private Agent doAction(String agentName, Action action) {
 		Agent agent = agentRepository.findAgentByName(agentName).orElseThrow(()->  new AgentNotFoundException("There is no agent with this name:" + agentName));
 		if(agent!=null) {
 			  
@@ -72,26 +81,30 @@ public class AgentLogic {
 			  	break; 
 			  	
 			  default : throw new BadActionException("Unexpected command: " + action+ ". Valid command is one of these: UP, DOWN, FORWARD, BACK"); };
-		}
+		}	
 		
 		if(agentRepository.isAnyAgentInThisLocation(agent.getLocation())) {
 			throw new  AgentConflictException("You do not have permission to perform this action, there is another agent at this position!"); 
 		}
-		if(!isThisPositionInSquare(agent)) {
+		
+		Predicate<Agent> validPosition= a -> (a.getLocation().getX()>=1 &&
+				a.getLocation().getX()<=maxWidth && 
+				a.getLocation().getY()>=1 &&
+				a.getLocation().getX()<=maxHeight);
+		
+		if(!validPosition.test(agent)) {
 			throw new  OutOfSquareException("You do not have permission to perform this action, this action takes you out of square!"); 
 		}
 				
 		return agentRepository.save(agent);
 	}
-	
-	private Boolean isThisPositionInSquare(Agent agent) {
-		
-		int positionX= agent.getLocation().getX();
-		int positionY= agent.getLocation().getY();
-		
-		if(positionX>=1 && positionX<=maxWidth && positionY>=1 && positionY<=maxHeight)
-			return true;
-		else 
-			return false;
-	}
+	/*
+	 * private Boolean isThisPositionInSquare(Agent agent) {
+	 * 
+	 * int positionX= agent.getLocation().getX(); int positionY=
+	 * agent.getLocation().getY();
+	 * 
+	 * if(positionX>=1 && positionX<=maxWidth && positionY>=1 &&
+	 * positionY<=maxHeight) return true; else return false; }
+	 */
 }
